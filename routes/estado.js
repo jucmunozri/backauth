@@ -1,38 +1,39 @@
-const { Router } = require('express')
-const { 
-    createEstado, 
-    getEstados, 
-    getEstadoByID,
-    updateEstadoByID,
-    deleteEstadoByID
-} = require('../controllers/estado')
+const { Router } = require("express");
+const {
+  createEstado,
+  getEstados,
+  getEstadoByID,
+  updateEstadoByID,
+  deleteEstadoByID,
+} = require("../controllers/estado");
 
-const router = Router()
+const router = Router();
+const { validarJwt } = require("../middlewares/validarJwt");
+const { esAdmin } = require("../middlewares/validarRol");
 
 /**
  * Crea un estado
  */
-router.post('/', createEstado)
+router.post("/", validarJwt, esAdmin, createEstado);
 
 /**
  * Consulta todos los estados
  */
-router.get('/', getEstados)
+router.get("/", validarJwt, esAdmin, getEstados);
 
 /**
  *  Consulta un estado por su ID
  */
-router.get('/:id', getEstadoByID)
+router.get("/:id", validarJwt, esAdmin, getEstadoByID);
 
 /**
  * Actualiza un estado por su ID
  */
-router.put('/:id', updateEstadoByID)
+router.put("/:id", validarJwt, esAdmin, updateEstadoByID);
 
 /**
  * Borra un estado por su ID
  */
-router.delete('/:id', deleteEstadoByID)
+router.delete("/:id", validarJwt, esAdmin, deleteEstadoByID);
 
-module.exports = router
-
+module.exports = router;

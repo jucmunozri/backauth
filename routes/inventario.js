@@ -1,34 +1,36 @@
-const { Router } = require('express')
+const { Router } = require("express");
 
-const { 
-    getInventarios,
-    createInventario,
-    getInventarioByID,
-    updateInventarioByID,
-    deleteInventarioByID,
-    uploadImageByID,
-    getImageByID
-} = require('../controllers/inventario')
+const {
+  getInventarios,
+  createInventario,
+  getInventarioByID,
+  updateInventarioByID,
+  deleteInventarioByID,
+  uploadImageByID,
+  getImageByID,
+} = require("../controllers/inventario");
 
-const router = Router()
+const router = Router();
+const { validarJwt } = require("../middlewares/validarJwt");
+const { esAdmin } = require("../middlewares/validarRol");
 
-router.get('/', getInventarios)
+router.get("/", validarJwt, getInventarios);
 
-router.post('/', createInventario)
+router.post("/", validarJwt, esAdmin, createInventario);
 
-router.get('/:id', getInventarioByID)
+router.get("/:id", validarJwt, getInventarioByID);
 
-router.put('/:id', updateInventarioByID)
+router.put("/:id", validarJwt, esAdmin, updateInventarioByID);
 
-router.delete('/:id', deleteInventarioByID)
+router.delete("/:id", validarJwt, esAdmin, deleteInventarioByID);
 /**
-* Sube foto de inventario
-*/
-router.post('/:id/images', uploadImageByID);
+ * Sube foto de inventario
+ */
+router.post("/:id/images", uploadImageByID);
 
 /**
-* get foto de inventario
-*/
-router.get('/:id/images', getImageByID);
+ * get foto de inventario
+ */
+router.get("/:id/images", getImageByID);
 
-module.exports = router
+module.exports = router;

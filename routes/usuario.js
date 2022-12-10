@@ -1,38 +1,39 @@
-const { Router } = require('express')
-const { 
-    createUsuario, 
-    getUsuarios, 
-    getUsuarioByID,
-    updateUsuarioByID,
-    deleteUsuarioByID
-} = require('../controllers/usuario')
+const { Router } = require("express");
+const {
+  createUsuario,
+  getUsuarios,
+  getUsuarioByID,
+  updateUsuarioByID,
+  deleteUsuarioByID,
+} = require("../controllers/usuario");
 
-const router = Router()
+const router = Router();
+const { validarJwt } = require("../middlewares/validarJwt");
+const { esAdmin } = require("../middlewares/validarRol");
 
 /**
  * Crea un usuario
  */
-router.post('/', createUsuario)
+router.post("/", validarJwt, esAdmin, createUsuario);
 
 /**
  * Consulta todos los usuarios
  */
-router.get('/', getUsuarios)
+router.get("/", validarJwt, esAdmin, getUsuarios);
 
 /**
  *  Consulta un usuario por su ID
  */
-router.get('/:id', getUsuarioByID)
+router.get("/:id", validarJwt, esAdmin, getUsuarioByID);
 
 /**
  * Actualiza un usuario por su ID
  */
-router.put('/:id', updateUsuarioByID)
+router.put("/:id", validarJwt, esAdmin, updateUsuarioByID);
 
 /**
  * Borra un usuario por su ID
  */
-router.delete('/:id', deleteUsuarioByID)
+router.delete("/:id", validarJwt, esAdmin, deleteUsuarioByID);
 
-module.exports = router
-
+module.exports = router;

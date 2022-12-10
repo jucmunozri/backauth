@@ -1,38 +1,39 @@
-const { Router } = require('express')
-const { 
-    createTipoEquipo, 
-    getTiposEquipo, 
-    getTipoEquipoByID,
-    updateTipoEquipoByID,
-    deleteTipoEquipoByID
-} = require('../controllers/tipoEquipo')
+const { Router } = require("express");
+const {
+  createTipoEquipo,
+  getTiposEquipo,
+  getTipoEquipoByID,
+  updateTipoEquipoByID,
+  deleteTipoEquipoByID,
+} = require("../controllers/tipoEquipo");
 
-const router = Router()
+const router = Router();
+const { validarJwt } = require("../middlewares/validarJwt");
+const { esAdmin } = require("../middlewares/validarRol");
 
 /**
  * Crea un tipo de equipo
  */
-router.post('/', createTipoEquipo)
+router.post("/", validarJwt, esAdmin, createTipoEquipo);
 
 /**
  * Consulta todos los tipos de equipo
  */
-router.get('/', getTiposEquipo)
+router.get("/", validarJwt, esAdmin, getTiposEquipo);
 
 /**
  *  Consulta un tipo de equipo por su ID
  */
-router.get('/:id', getTipoEquipoByID)
+router.get("/:id", validarJwt, esAdmin, getTipoEquipoByID);
 
 /**
  * Actualiza un tipo de equipo por su ID
  */
-router.put('/:id', updateTipoEquipoByID)
+router.put("/:id", validarJwt, esAdmin, updateTipoEquipoByID);
 
 /**
  * Borra un tipo de equipo por su ID
  */
-router.delete('/:id', deleteTipoEquipoByID)
+router.delete("/:id", validarJwt, esAdmin, deleteTipoEquipoByID);
 
-module.exports = router
-
+module.exports = router;
